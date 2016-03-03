@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Indo-Infrastructure">
+<meta name="author" content="indo-infrastructure.com">
+<meta name="keyword" content="Indonesia, Infrastructure, Investment, Development">
+{% set ASSET_ROOT = "/web" %}
+{% set WEB_ROOT = "" %}
+<link rel="shortcut icon" href="{{ ASSET_ROOT }}/admin/favicon.ico" type="image/x-icon">
+<link rel="icon" href="{{ ASSET_ROOT }}/admin/favicon.ico" type="image/x-icon">
+
+<title>{{ pageTitle|default('eWIDEPLUS Corp. | Content Management System') }}</title> 
+
+<!-- Bootstrap CSS -->
+<link href="{{ ASSET_ROOT }}/admin/css/bootstrap.min.css" rel="stylesheet">
+<!-- bootstrap theme -->
+<link href="{{ ASSET_ROOT }}/admin/css/bootstrap-theme.css" rel="stylesheet">
+<link href="{{ ASSET_ROOT }}/admin/css/datepicker.css" rel="stylesheet">
+
+<!--external css-->
+<!-- font icon -->
+<link href="{{ ASSET_ROOT }}/admin/css/elegant-icons-style.css" rel="stylesheet">
+<link href="{{ ASSET_ROOT }}/admin/css/font-awesome.min.css" rel="stylesheet">
+
+<link href="{{ ASSET_ROOT }}/admin/css/widgets.css" rel="stylesheet">
+<link href="{{ ASSET_ROOT }}/admin/css/style.css" rel="stylesheet">
+<link href="{{ ASSET_ROOT }}/admin/css/style-responsive.css" rel="stylesheet">
+<link href="{{ ASSET_ROOT }}/admin/css/jquery-ui-1.10.4.min.css" rel="stylesheet">
+
+<!-- HTML5 shim and Respond.js IE8 support of HTML5 -->
+<!--[if lt IE 9]>
+      <script src="{{ ASSET_ROOT }}/admin/js/html5shiv.js"></script>
+      <script src="{{ ASSET_ROOT }}/admin/js/respond.min.js"></script>
+      <script src="{{ ASSET_ROOT }}/admin/js/lte-ie7.js"></script>
+<![endif]-->
+{% block css %}{% endblock %}
+</head>
+
+<body>
+	<!-- container section start -->
+	<section id="container" class="">
+		<header class="header dark-bg">
+			<div class="toggle-nav">
+				<i class="fa fa-bars"></i>
+				<div class="icon-reorder tooltips" data-original-title="Toggle Navigation" data-placement="bottom"></div>
+			</div>
+			<!--logo start-->
+			<a href="{{ WEB_ROOT }}/admin/dashboard" class="logo">indonesia-<span class="lite">air</span></a>
+			<!--logo end-->
+			<div class="top-nav notification-row">
+				<!-- notificatoin dropdown start-->
+				<ul class="nav pull-right top-menu">
+					<li class="dropdown">
+					
+						{% if app.session.get("userSession") %}
+							<a data-toggle="dropdown" class="dropdown-toggle" href="#"> 
+								<span class="profile-ava">
+                                	<img class="lazy" data-original="{{ WEB_ROOT }}/image/{{ app.session.get("userSession").thumbnailImage }}" width="30">
+                            	</span>
+								<span class="username">{{ app.session.get("userSession").username }}</span> <b class="caret"></b>
+							</a>
+						{% endif %}
+						
+						<ul class="dropdown-menu extended logout">
+							<div class="log-arrow-up"></div>
+							
+							{% if app.session.get("userSession") is empty %}
+								<li><a href="{{ WEB_ROOT }}/admin/login"><i class="fa fa-lock"></i> Log In</a></li>
+							{% else %}
+								<li><a href="{{ WEB_ROOT }}/admin/logout"><i class="fa fa-unlock"></i> Log Out</a></li>
+							{% endif %}
+						</ul>
+					</li>
+					<!-- user login dropdown end -->
+				</ul>
+				<!-- notificatoin dropdown end-->
+			</div>
+		</header>
+		<!--header end-->
+
+		<!--sidebar start-->
+		<aside>
+			<div id="sidebar" class="nav-collapse " tabindex="5000" style="overflow: hidden; outline: none;">
+				<!-- sidebar menu start-->
+				<ul class="sidebar-menu">
+					<li class="{% if menu == "dashboard" %}active{% endif %}">
+						<a class="" href="{{ WEB_ROOT }}/admin/dashboard"> <i class="fa fa-home"></i> <span>Dashboard</span></a>
+					</li>
+					<li class="{% if menu == "user" %}active{% endif %}">
+						<a class="" href="{{ WEB_ROOT }}/admin/user/list"> <i class="fa fa-user"></i> <span>User</span></a>
+					</li>
+					<li class="{% if menu == "product" %}active{% endif %}">
+						<a class="" href="{{ WEB_ROOT }}/admin/product/list"> <i class="fa fa-gift"></i> <span>Product</span></a>
+					</li>
+					<li class="{% if menu == "service" %}active{% endif %}">
+						<a class="" href="{{ WEB_ROOT }}/admin/service/list"> <i class="fa fa-user-md"></i> <span>Service</span></a>
+					</li>
+					<li class="{% if menu == "catalog" %}active{% endif %}">
+						<a class="" href="{{ WEB_ROOT }}/admin/catalog/list"> <i class="fa fa-download"></i> <span>Catalog</span></a>
+					</li>
+					<li class="{% if menu == "news" %}active{% endif %}">
+						<a class="" href="{{ WEB_ROOT }}/admin/news/list"> <i class="fa fa-file-text"></i> <span>News</span></a>
+					</li>
+					<li class="{% if menu == "event" %}active{% endif %}">
+						<a class="" href="{{ WEB_ROOT }}/admin/event/list"> <i class="fa fa-calendar-o"></i> <span>Event</span></a>
+					</li>
+					<li class="{% if menu == "career" %}active{% endif %}">
+						<a class="" href="{{ WEB_ROOT }}/admin/career/list"> <i class="fa fa-graduation-cap"></i> <span>Career</span></a>
+					</li>
+					<li class="{% if menu == "term" %}active{% endif %}">
+						<a class="" href="{{ WEB_ROOT }}/admin/term/list"> <i class="fa fa-tags"></i> <span>Tag / Category</span></a>
+					</li>
+				</ul>
+				<!-- sidebar menu end-->
+			</div>
+		</aside>
+		<!--sidebar end-->
+
+		<!--main content start-->
+		<section id="main-content">
+			<section class="wrapper">
+				
+				{% block content %}{% endblock %}
+				
+			</section>
+		</section>
+		<!--main content end-->
+	</section>
+	<!-- container section start -->
+	
+	<!-- Alert -->
+	<div class="modal fade" id="myAlert" tabindex="-1" role="dialog"></div>
+	
+	<!-- javascripts -->
+	<script src="{{ ASSET_ROOT }}/admin/js/jquery.js"></script>
+	<script src="{{ ASSET_ROOT }}/admin/js/jquery-ui-1.10.4.min.js"></script>
+	<script src="{{ ASSET_ROOT }}/admin/js/jquery-ui-1.9.2.custom.min.js"></script>
+	<script src="{{ ASSET_ROOT }}/admin/js/jquery.lazyload.min.js"></script>
+	
+	<!-- bootstrap -->
+	<script src="{{ ASSET_ROOT }}/admin/js/bootstrap.min.js"></script>
+	<script src="{{ ASSET_ROOT }}/admin/js/bootstrap-datepicker.js"></script>	
+
+	<script src="{{ ASSET_ROOT }}/admin/js/scripts.js"></script>
+	<script src="{{ ASSET_ROOT }}/admin/js/jquery.autosize.min.js"></script>
+	<script src="{{ ASSET_ROOT }}/admin/js/jquery.placeholder.min.js"></script>
+	<script src="http://share.donreach.com/buttons.js"></script>
+	
+	<script>
+		var myAlert = '' 
+			+'<div class="modal-dialog">'
+				+'<div class="modal-content">'
+					+'<div class="modal-header">'
+						+'<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>'
+							+'<h4 class="modal-title" id="alertTitle"></h4>'
+					+'</div>'
+					+'<div class="modal-body">'
+						+'<p id="alertMessage"></p>'
+					+'</div>'
+					+'<div class="modal-footer">'
+						+'<button type="button" class="btn btn-default" id="noAction" data-dismiss="modal">No</button>'
+						+'<button type="button" class="btn btn-primary" id="alertAction">Yes</button>'
+					+'</div>'
+				+'</div>'
+			+'</div>';
+
+		var showAlert = function(title, message, action, ret){
+			$("#myAlert").html(myAlert);
+			
+			if(action){
+				$("#alertAction").attr("onclick", "$('#myAlert').modal('hide');"+action);
+				if(ret){
+					$("#noAction").remove();
+					$("#alertAction").attr("class", "btn btn-primary").html("OK");				
+				}
+			}else{
+				$("#alertAction").remove();
+				$("#noAction").attr("class", "btn btn-primary").html("OK");
+			}
+			
+			$("#alertTitle").html(title);
+			$("#alertMessage").html(message);
+
+			$("#myAlert").modal("show");
+		};
+
+		$(document).ready(function(){
+			$("img.lazy").lazyload({
+			    effect : "fadeIn"			
+			});			
+		});
+	</script>
+	
+	{% block js%}{% endblock %}
+
+</body>
+</html>

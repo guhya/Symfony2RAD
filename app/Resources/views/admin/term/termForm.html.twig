@@ -1,0 +1,125 @@
+{% extends 'admin/base.html.twig' %} 
+
+{% block content %}
+
+<div class="row">
+	<div class="col-lg-12">
+		<h3 class="page-header">
+			<i class="fa fa-tags"></i> Tag / Category Management
+		</h3>
+		<ol class="breadcrumb">
+			<li><i class="fa fa-home"></i><a href="{{ WEB_ROOT }}/admin/dashboard">Home</a></li>
+			<li><i class="fa fa-edit"></i>Tag / Category Management</li>
+		</ol>
+	</div>
+</div>
+
+<div class="row">
+	<div class="col-lg-12">
+		<section class="panel">
+			<header class="panel-heading">
+            	Tag / Category Information
+			</header>		
+			<div class="panel-body">
+				<h1></h1>
+				<div class="form">
+					<form class="form-validate form-horizontal" id="termForm" name="termForm" method="post">
+						<input type="hidden" name="p"					value="{{ paging.current }}"/>
+						<input type="hidden" name="seq"					value="{{ term.seq }}"/>
+						<input type="hidden" name="parent"				value="{{ term.parent }}"/>
+						<input type="hidden" name="c"					value="{{ param.c }}"/>
+						<input type="hidden" name="k"					value="{{ param.k }}"/>
+						
+						<div class="form-group row">
+							<label for="taxonomy" class="control-label col-lg-2">Tag / Category<span class="required">*</span></label>
+							<div class="col-lg-4">
+								<select class="form-control" id="taxonomy" name="taxonomy" required>
+									<option value="">Select</option>
+									<option value="tag" {% if term.taxonomy == "tag" %}selected{% endif %}>Tag</option>
+									<option value="cat" {% if term.taxonomy == "cat" %}selected{% endif %}>Category</option>
+								</select>
+								<p class="help-block"></p>
+							</div>
+						</div>
+						
+						<div class="form-group row">
+							<label for="name" class="control-label col-lg-2">Name <span class="required">*</span></label>
+							<div class="col-lg-4">
+								<input class="form-control" id="name" name="name" minlength="4" maxlength="200" type="text" required="true" value="{{ term.name }}">
+								<p class="help-block"></p>
+							</div>
+						</div>
+						
+						{% if action == "write" %}
+						<div class="form-group row">
+							<label for="parent" class="control-label col-lg-2">Parent</label>
+							<div class="col-lg-4">
+								<select class="form-control" id="parent" name="parent">
+									<option value="0">-</option>
+									{% for i in category %}
+										<option value="{{ i.seq }}" {% if i.seq == term.parent %}selected{% endif %}>{{ i.padding[5:] }} {{ i.name }}</option>
+									{% endfor %}
+								</select>
+								<p class="help-block"></p>
+							</div>
+						</div>
+						{% endif %}
+						
+						{% if action == "edit" and term.taxonomy == "cat" %}
+						<div class="form-group row">
+							<label for="parent" class="control-label col-lg-2">Full Path</label>
+							<div class="col-lg-4">
+								{% set path = "" %}
+								{% set labelRef = "" %}
+								{% for j in term.fullPath %}
+									{% set labelRef = "<a href='" ~ WEB_ROOT ~ "/admin/term/detail?seq=" ~ j.seq ~ "&" ~ param.parameter ~ "'>" ~ j.name ~ "</a>" %}
+									{% set path = path ~ " > " ~ labelRef %}
+								{% endfor %}
+								{{ path[2:]|raw }}
+							</div>
+						</div>
+						{% endif %}						
+						
+						<div class="form-group row">
+							<label for="description" class="control-label col-lg-2">Description</label>
+							<div class="col-lg-10">
+								<textarea class="form-control" id="description" name="description" rows="10">{{ term.description}}</textarea>								
+								<p class="help-block"></p>
+							</div>
+						</div>
+						
+						<div class="form-group">
+							<div class="col-lg-offset-2 col-lg-10">
+								<input type="submit" name="submitHandler" style="display:none"/>
+								<button class="btn btn-primary" type="button" onclick="saveProc();">Save</button>
+								<button class="btn btn-default" type="button" onclick="top.location = '{{ WEB_ROOT }}/admin/term/list?{{ param.parameter }}'">Cancel</button>
+							</div>
+						</div>
+						
+					</form>
+				</div>
+
+			</div>
+		</section>
+	</div>
+</div>
+
+{% endblock %} 
+
+{% block js%}
+<script>	
+	var saveProc = function(){
+		var frm = document.termForm;
+
+		frm.encoding		= "multipart/form-data";
+		frm.submitHandler.click();
+	}	
+
+	$(document).ready(function(){
+		{% for i in errors %}
+			$("#{{ i.propertyPath }}").parent().addClass("has-error");
+			$("#{{ i.propertyPath }}").parent().find(".help-block").html("{{ i.message }}");
+		{% endfor %}
+	});	
+</script>
+{% endblock %}

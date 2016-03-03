@@ -1,0 +1,100 @@
+{% extends 'admin/base.html.twig' %} 
+
+{% block content %}
+
+<form name="termForm" method="post" id="termForm">
+	<input type="hidden" name="p"			value="{{ paging.current }}"/>
+	<input type="hidden" name="seq"			value="{{ term.seq }}"/>
+	<input type="hidden" name="lineage"		value="{{ term.lineage }}"/>
+	<input type="hidden" name="c"			value="{{ param.c }}"/>
+	<input type="hidden" name="k"			value="{{ param.k }}"/>
+</form>
+		
+<div class="row">
+	<div class="col-lg-12">
+		<h3 class="page-header">
+			<i class="fa fa-tags"></i> Tag / Category
+		</h3>
+		<ol class="breadcrumb">
+			<li><i class="fa fa-home"></i><a href="{{ WEB_ROOT }}/admin/dashboard">Home</a></li>
+			<li><i class="fa fa-info-circle"></i>Tag / Category Information</li>
+		</ol>
+	</div>
+</div>
+
+<div class="row">
+	<div class="col-lg-12">
+		<section class="panel">
+			<header class="panel-heading">
+            	Term Information
+			</header>		
+			<div class="panel-body">
+				<h1></h1>
+				<div class="form form-horizontal">
+					<div class="form-group row">
+						<label for="name" class="control-label col-lg-2">Name <span class="required">*</span></label>
+						<div class="col-lg-4">
+							<p><h4 style="font-weight:bold">{{ term.name }}</h4></p>
+						</div>
+					</div>
+					
+					<div class="form-group row">
+						<label for="taxonomy" class="control-label col-lg-2">Tag / Category<span class="required">*</span></label>
+						<div class="col-lg-4">
+							{% if term.taxonomy == "tag" %}Tag{% else %}Category{% endif %}
+						</div>
+					</div>
+					
+					{% if term.taxonomy == "cat" %}
+					<div class="form-group row">
+						<label for="parent" class="control-label col-lg-2">Full Path</label>
+						<div class="col-lg-4">
+							{% set path = "" %}
+							{% set labelRef = "" %}
+							{% for j in term.fullPath %}
+								{% set labelRef = "<a href='" ~ WEB_ROOT ~ "/admin/term/detail?seq=" ~ j.seq ~ "&" ~ param.parameter ~ "'>" ~ j.name ~ "</a>" %}
+								{% set path = path ~ " > " ~ labelRef %}
+							{% endfor %}
+							{{ path[2:]|raw }}
+						</div>
+					</div>
+					{% endif %}						
+															
+					<div class="form-group row">
+						<label for="about" class="control-label col-lg-2">Description</label>
+						<div class="col-lg-10">
+							<p>{{ term.description|nl2br }}</p>								
+						</div>
+					</div>
+					
+					<div class="form-group">
+						<div class="col-lg-offset-2 col-lg-10">
+							<button class="btn btn-success" type="button" onclick="top.location = '{{ WEB_ROOT }}/admin/term/edit?seq={{ term.seq }}&{{ param.parameter }}'">Edit</button>
+							<button class="btn btn-primary" type="button" onclick="top.location = '{{ WEB_ROOT }}/admin/term/list?{{ param.parameter }}'">List</button>
+							<button class="btn btn-danger" type="button" onclick="deleteItem();">Delete Term</button>
+						</div>
+					</div>
+						
+				</div>
+
+			</div>
+		</section>
+	</div>
+</div>
+
+{% endblock %} 
+
+{% block js%}
+<script>
+	var deleteItem = function(){
+		showAlert("Confirm item deletion", "Are you sure you want to delete this item?", "deleteProc();");
+	}
+	var deleteProc = function(){
+		var frm = document.termForm;
+	
+		frm.encoding		= "multipart/form-data";
+		frm.action			= "{{ WEB_ROOT }}/admin/term/delete";
+		frm.submit();
+	}	
+</script>
+{% endblock %}

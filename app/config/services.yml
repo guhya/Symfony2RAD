@@ -1,0 +1,102 @@
+# Learn more about services, parameters and containers at
+# http://symfony.com/doc/current/book/service_container.html
+parameters:
+#    parameter_name: value
+
+services:
+#    service_name:
+#        class: AppBundle\Directory\ClassName
+#        arguments: ["@another_service_name", "plain_value", "%parameter_name%"]
+
+      my.admin.pagingService:
+          class: AppBundle\Admin\Service\PagingService
+          
+
+      my.common.fileDAO:
+          class: AppBundle\Common\FileDAO
+          arguments: ["@doctrine.dbal.freewebsite_connection"]
+
+      my.common.fileService:
+          class: AppBundle\Common\FileService
+          arguments: ["@my.common.fileDAO"]
+      
+      my.common.termRelationshipDAO:
+          class: AppBundle\Common\TermRelationshipDAO
+          arguments: ["@doctrine.dbal.freewebsite_connection"]
+
+      my.common.termRelationshipService:
+          class: AppBundle\Common\TermRelationshipService
+          arguments: ["@my.common.termRelationshipDAO"]
+
+
+      my.admin.userDAO:
+          class: AppBundle\Admin\DAO\UserDAO
+          arguments: ["@doctrine.dbal.freewebsite_connection"]
+
+      my.admin.userService:
+          class: AppBundle\Admin\Service\UserService
+          arguments: ["@my.admin.userDAO", "@my.common.fileDAO"]
+
+      my.admin.productDAO:
+          class: AppBundle\Admin\DAO\ProductDAO
+          arguments: ["@doctrine.dbal.freewebsite_connection"]
+
+      my.admin.productService:
+          class: AppBundle\Admin\Service\ProductService
+          arguments: ["@doctrine.dbal.freewebsite_connection", "@my.admin.productDAO", "@my.common.fileDAO", "@my.common.termRelationshipDAO"]
+
+      my.admin.serviceDAO:
+          class: AppBundle\Admin\DAO\ServiceDAO
+          arguments: ["@doctrine.dbal.freewebsite_connection"]
+
+      my.admin.serviceService:
+          class: AppBundle\Admin\Service\ServiceService
+          arguments: ["@my.admin.serviceDAO", "@my.common.fileDAO", "@my.common.termRelationshipDAO"]
+
+      my.admin.catalogDAO:
+          class: AppBundle\Admin\DAO\CatalogDAO
+          arguments: ["@doctrine.dbal.freewebsite_connection"]
+
+      my.admin.catalogService:
+          class: AppBundle\Admin\Service\CatalogService
+          arguments: ["@my.admin.catalogDAO", "@my.common.fileDAO", "@my.common.termRelationshipDAO"]
+
+      my.admin.newsDAO:
+          class: AppBundle\Admin\DAO\NewsDAO
+          arguments: ["@doctrine.dbal.freewebsite_connection"]
+
+      my.admin.newsService:
+          class: AppBundle\Admin\Service\NewsService
+          arguments: ["@my.admin.newsDAO", "@my.common.fileDAO", "@my.common.termRelationshipDAO"]
+      
+      my.admin.eventDAO:
+          class: AppBundle\Admin\DAO\EventDAO
+          arguments: ["@doctrine.dbal.freewebsite_connection"]
+
+      my.admin.eventService:
+          class: AppBundle\Admin\Service\EventService
+          arguments: ["@my.admin.eventDAO", "@my.common.fileDAO", "@my.common.termRelationshipDAO"]
+          
+      my.admin.careerDAO:
+          class: AppBundle\Admin\DAO\CareerDAO
+          arguments: ["@doctrine.dbal.freewebsite_connection"]
+
+      my.admin.careerService:
+          class: AppBundle\Admin\Service\CareerService
+          arguments: ["@my.admin.careerDAO", "@my.common.fileDAO", "@my.common.termRelationshipDAO"]
+
+      my.admin.termDAO:
+          class: AppBundle\Admin\DAO\TermDAO
+          arguments: ["@doctrine.dbal.freewebsite_connection"]
+
+      my.admin.termService:
+          class: AppBundle\Admin\Service\TermService
+          arguments: ["@my.admin.termDAO"]
+
+
+
+      my.admin.authenticationListener:
+        class: AppBundle\Admin\Listener\AuthenticationListenerImpl
+        arguments: ["@my.admin.productService"]
+        tags:
+            - { name: kernel.event_listener, event: kernel.controller, method: onKernelController }          
