@@ -1,4 +1,4 @@
-# Symfony2SOA
+# Symfony2RAD
 PHP Symfony2 Service Oriented Architecture for rapid corporate website development. 
 Designed to ease Java Spring MVC developer migrating to PHP.
 
