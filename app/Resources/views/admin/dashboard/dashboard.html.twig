@@ -15,11 +15,21 @@
 
 <div class="row">
 	<div class="col-lg-12">
+		{% set name = app.session.get("userSession").username %}
+		{% trans %}label.welcome %name%{% endtrans %}
+		<br/>
+		{{ "label.welcome"|trans({"%name%" : app.session.get("userSession").username }) }}
+		<br/>
+		<h3>{{ "label.bye"|trans }}</h3>
 	</div>
 </div>
 
 {% endblock %} 
 
 {% block js%}
+<script>
+	var setLanguage = function(lang){
+	};
+</script>
 
 {% endblock %}

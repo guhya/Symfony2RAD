@@ -99,4 +99,12 @@ services:
         class: AppBundle\Admin\Listener\AuthenticationListenerImpl
         arguments: ["@my.admin.productService"]
         tags:
-            - { name: kernel.event_listener, event: kernel.controller, method: onKernelController }          
+            - { name: kernel.event_listener, event: kernel.controller, method: onKernelController }
+            
+      my.localeListener:
+        class: AppBundle\Admin\Listener\LocaleListener
+        arguments: ["%kernel.default_locale%"]
+        tags:
+            - { name: kernel.event_subscriber }                    
+            
+              

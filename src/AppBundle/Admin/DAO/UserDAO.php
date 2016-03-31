@@ -210,11 +210,10 @@ class UserDAO
 					, b1.originalName AS thumbnailImageOriginalName
 				FROM tbUser a
 					LEFT JOIN tbFile b1 ON a.seq = b1.ownerSeq AND b1.delYn = 'N' AND b1.channel = 'user' AND b1.category = 'thumbnailImage'
-				WHERE a.username = :username AND a.password = :password AND a.delYn = 'N'";
+				WHERE a.username = :username AND a.delYn = 'N'";
 		
 		$stmt = $this->con->prepare($sql);
 		$stmt->bindValue("username"		, $userVo->getUsername());
-		$stmt->bindValue("password"		, $userVo->getPassword());
 		$stmt->execute();
 		
 		return $stmt->fetch();

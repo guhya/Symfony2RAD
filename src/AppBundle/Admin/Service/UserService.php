@@ -93,4 +93,16 @@ class UserService
 	{
 		return $this->dao->getByUsername($userVo);
 	}
+	
+	public function loginByUsername(UserVO $userVo)
+	{
+		$r = $this->dao->getByUsername($userVo);
+		$isPasswordMatch = $r["password"] == $userVo->getPassword();
+		
+		if($isPasswordMatch){
+			return $r;
+		}else{
+			return false;
+		}
+	}
 }

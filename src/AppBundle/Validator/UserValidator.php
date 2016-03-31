@@ -63,6 +63,7 @@ class UserValidator
 		if($r){
 			$dbPassword = $r["password"];
 		}
+		
 		$this->dbPassword 	= $dbPassword;
 		$this->oldPassword	= $userVo->getOldPassword();
 		$this->username		= $userVo->getUsername();

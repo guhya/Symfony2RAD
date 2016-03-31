@@ -36,7 +36,7 @@ class LoginController extends Controller
 			$password = hash("sha256", $request->request->get("password"));
 			$userVo->setPassword($password);
 			
-			$result = $this->get("my.admin.userService")->getByUsername($userVo);
+			$result = $this->get("my.admin.userService")->loginByUsername($userVo);
 			
 			/* If login success, then redirect to dashboard page */
 			if($result){

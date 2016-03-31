@@ -19,6 +19,7 @@ class DashboardController extends Controller implements IAuthenticationListener
 	 * @Route("/admin/dashboard", name="dashboard")
 	 */	
 	public function dashboard(Request $request) {
+		
 		$content = array(
 				Constants::CONTENT_PAGE_TITLE 	=> "Dashboard",
 				Constants::CONTENT_MENU 		=> Constants::DASHBOARD

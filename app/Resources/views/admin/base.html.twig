@@ -53,6 +53,21 @@
 				<!-- notificatoin dropdown start-->
 				<ul class="nav pull-right top-menu">
 					<li class="dropdown">
+						<a data-toggle="dropdown" class="dropdown-toggle" href="#"> 
+							<span class="username">Bahasa Indonesia</span> <b class="caret"></b>
+						</a>
+						<ul class="dropdown-menu extended logout">
+							<div class="log-arrow-up"></div>
+							{% set inUri = path(app.request.attributes.get("_route"), app.request.query.all|merge({"_locale" : "in"})) %}
+							{% set enUri = path(app.request.attributes.get("_route"), app.request.query.all|merge({"_locale" : "en"})) %}
+							{% set koUri = path(app.request.attributes.get("_route"), app.request.query.all|merge({"_locale" : "ko"})) %}
+							
+							<li><a href="{{ inUri }}">Bahasa Indonesia</a></li>
+							<li><a href="{{ enUri }}">English</a></li>
+							<li><a href="{{ koUri }}">한국어</a></li>
+						</ul>						
+					</li>
+					<li class="dropdown">
 					
 						{% if app.session.get("userSession") %}
 							<a data-toggle="dropdown" class="dropdown-toggle" href="#"> 
